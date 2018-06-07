@@ -3,65 +3,50 @@
 
 
 
- enum UnEtatJeu {DJ='demarrerJeu',AT1='attente1', AT2='attente2', CRET='carteRetournees',GAG= 'gagnee', ABD='abandonnee',MDT='manqueDeTemps'};
+ enum EtatDuJeu {finTemps, finGagnante, finAbandon, pretADemarrer, enAttenteCarte1, enAttenteCarte2, deuxCartesRetournees};
 
-class MemoryPrincipale : public wxFrame
+#include "Carte.h"
+#include "Plateau.h"
+
+#ifndef MEMORY_H
+#define MEMORY_H
+
+class Memory
 {
-public:
-    Memory();
-    virtual ~Memory();
-    int getTempsMaxAlloue();
-    int getTempsRestant();
-    void setEtat (UnEtatJeu etat);
-    void setTempsMaxAlloue (int tpsM);
-    void setTempsRestant (int tpsR);
-    Plateau* etLePlateau();
-    int getNbCarteUtilisees();
-    void setNbCartesUtilisees (Carte* carte);
-    bool evaluerCartesSelectionnees();
-    void demarrerPartie();
-    void abandonnerPartie();
-    void terminerPartieTempsRestantEcoule();
-    void terminerPartieCarteRassembler();
+    public:
+        Memory();//Constructeur par défault
+        virtual ~Memory();//Destructeur de la classe Memory
+        EtatDuJeu getEtatJeu();//Connaitre l'état du jeu
+        void setEtat(EtatDuJeu);//Modifie l'état du jeu
+        int getTempsMaxAlloue();//Recupère le temps maximum attribué au joueur
+        void setTempsMaxAlloue(int);//Modifier le temps afficher
+        int getTempsRestant();//Récupère le temps restant au joueur
+        void setTempsRestant(int);//Modifie le temps restant au joueur
+        int getNbCoupsJoues();//Récupère le nombre de fait par le joueur
+        void setNbCoupsJoues(int);//Modifie le nombre de coup jouer par l’utilisateur
 
-protected:
-    UnEtatJeu m_etatJeu;
-    int m_tempsMaxAlloue;
-    int m_tempsRestant;
-    int m_nbCarteARassembler;
-    int m_nbCartesUtilisees;
-    int m_nbPairesTrouvees;
-    int m_nbCoupsJoues;
+        Plateau* getPlateau();//Récupère les informations du plateau
+        int getNbCartesUtilisees();//Récupère le nombre de carte sur le plateau
+        void setNbCartesUtilisees(int);//Modifie le nombre de carte utilisée sur le plateau
+        void ajouterCarteUtilisees(Carte&);//Ajoute une nouvelle carte aux cartes utilisées
+        bool compareCarte(Carte&, Carte&);//Compare les deux cartes passées en paramètre
 
-private:
-    wxStaticText* pairesTrouvees;
-    wxStaticText* coupsJoue;
-    wxStaticText* TempsRestant;
-    wxStaticText* labelPairesTrouvees ;
-    wxStaticText* labelCoupsJoue ;
-    wxStaticText* labelTempsRestant;
-    wxButton* demarrer ;
-    wxButton* abandonner ;
+        void demarrerPartie();//Démarre la partie de Memory
+        void abandonnerPartie();//Abandonner la partie actuelle
+        void terminerPartieTempsRestantEcoule();//Termine la partie lorsque le temps imparti est fini
+        void terminerPartieCartesRassemblees();//Termine la partie lorsque le joueur trouve toutes les combinaisons de carte
+        void tempsPauseEcoule();//
+        bool carteRetournee(int, int);//indique si la carte est retournée : true si oui, false sinon
 
+    protected:
+        EtatDuJeu m_etatJeu;  //L'état dans lequel le jeu se trouve
+        int m_nbCartesUtilisees; //le nombre de cartes utilisées sur le plateau
+        int m_nbCarteARassembler;//Le nombre de cartes à trouver sur le plateau
+        int m_tempsMaxAlloue;   //Indique le temps maximum donné à l'utilisateur pour sa partie
+        int m_tempsRestant;     //Indique le temps restant à l'utilisateur pour sa partie
+        int m_nbCoupsJoues;     //Le nombre de coups faits par l'utilisateur
+        int m_nbPairesTrouvees;//Le nombre de combinaisons trouvées par l'utilisateur
 
-    wxBoxSizer* sizerBouton;
-    wxGridSizer* gridSizer
-    wxBoxSizer* totalSizer;
+};
 
-    wxBitmapButton* boutonACliquer1;
-    wxBitmapButton* boutonACliquer2;
-    wxBitmapButton* boutonACliquer3;
-    wxBitmapButton* boutonACliquer4;
-    wxBitmapButton* boutonACliquer5;
-    wxBitmapButton* boutonACliquer6;
-    wxBitmapButton* boutonACliquer7;
-    wxBitmapButton* boutonACliquer8;
-    wxBitmapButton* boutonACliquer9;
-    wxBitmapButton* boutonACliquer10;
-    wxBitmapButton* boutonACliquer11;
-    wxBitmapButton* boutonACliquer12;
-    wxBitmapButton* boutonACliquer13;
-    wxBitmapButton* boutonACliquer14;
-    wxBitmapButton* boutonACliquer15;
-    wxBitmapButton* boutonACliquer16;
-
+#endif
