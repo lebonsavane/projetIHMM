@@ -19,7 +19,7 @@ void PrincipaleMemory::terminerPartieTempsRestantEcoule(wxTimerEvent& event)
     if (m_timer=0)
     {
      int temps0 = wxMessageBox( wxT ("Temps écoulé, fin du jeu"), wxT("PERDU :(("), wxOK, this);
-     
+     etatJeu= 'finTemps'
 
 
 
